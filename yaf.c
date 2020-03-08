@@ -42,7 +42,7 @@
 #include "yaf_plugin.h"
 #include "yaf_registry.h"
 #include "yaf_session.h"
-
+#include "yaf_db.h"
 ZEND_DECLARE_MODULE_GLOBALS(yaf);
 
 /* {{{ yaf_functions[]
@@ -67,7 +67,7 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_ENTRY("yaf.library",         	"",  PHP_INI_ALL, OnUpdateString, global_library, zend_yaf_globals, yaf_globals)
 	STD_PHP_INI_BOOLEAN("yaf.action_prefer",   	"0", PHP_INI_ALL, OnUpdateBool, action_prefer, zend_yaf_globals, yaf_globals)
 	STD_PHP_INI_BOOLEAN("yaf.lowcase_path",    	"0", PHP_INI_ALL, OnUpdateBool, lowcase_path, zend_yaf_globals, yaf_globals)
-	STD_PHP_INI_BOOLEAN("yaf.use_spl_autoload", "0", PHP_INI_ALL, OnUpdateBool, use_spl_autoload, zend_yaf_globals, yaf_globals)
+	STD_PHP_INI_BOOLEAN("yaf.use_spl_autoload", "1", PHP_INI_ALL, OnUpdateBool, use_spl_autoload, zend_yaf_globals, yaf_globals)
 	STD_PHP_INI_ENTRY("yaf.forward_limit", 		"5", PHP_INI_ALL, OnUpdateLongGEZero, forward_limit, zend_yaf_globals, yaf_globals)
 	STD_PHP_INI_BOOLEAN("yaf.name_suffix", 		"1", PHP_INI_ALL, OnUpdateBool, name_suffix, zend_yaf_globals, yaf_globals)
 	PHP_INI_ENTRY("yaf.name_separator", 		"",  PHP_INI_ALL, OnUpdateSeparator)
@@ -75,7 +75,7 @@ PHP_INI_BEGIN()
 	STD_PHP_INI_BOOLEAN("yaf.st_compatible",     "0", PHP_INI_ALL, OnUpdateBool, st_compatible, zend_yaf_globals, yaf_globals)
 /* }}} */
 	STD_PHP_INI_ENTRY("yaf.environ",        	"product", PHP_INI_SYSTEM, OnUpdateString, environ_name, zend_yaf_globals, yaf_globals)
-	STD_PHP_INI_BOOLEAN("yaf.use_namespace",   	"0", PHP_INI_SYSTEM, OnUpdateBool, use_namespace, zend_yaf_globals, yaf_globals)
+	STD_PHP_INI_BOOLEAN("yaf.use_namespace",   	"1", PHP_INI_SYSTEM, OnUpdateBool, use_namespace, zend_yaf_globals, yaf_globals)
 PHP_INI_END();
 /* }}} */
 
@@ -141,7 +141,7 @@ PHP_MINIT_FUNCTION(yaf)
 	YAF_STARTUP(registry);
 	YAF_STARTUP(session);
 	YAF_STARTUP(exception);
-
+	YAF_STARTUP(db);
 	return SUCCESS;
 }
 /* }}} */
