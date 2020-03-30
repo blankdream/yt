@@ -599,7 +599,8 @@ PHP_METHOD(yaf_loader, autoload) {
 	}
 
 	separator_len = YAF_G(name_separator_len);
-	app_directory = YAF_G(directory)? ZSTR_VAL(YAF_G(directory)) : NULL;
+	//app_directory = YAF_G(directory)? ZSTR_VAL(YAF_G(directory)) : NULL;
+	app_directory = YAF_G(root_path)? ZSTR_VAL(YAF_G(root_path)) : NULL;
 	origin_classname = class_name;
 
 	do {
@@ -688,7 +689,6 @@ PHP_METHOD(yaf_loader, autoload) {
 		ret = 0;
 		goto out;
 	}
-
 	if (!YAF_G(use_spl_autoload)) {
 		/** directory might be NULL since we passed a NULL */
 		if (yaf_internal_autoload(file_name, file_name_len, &directory)) {

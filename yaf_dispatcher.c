@@ -349,7 +349,7 @@ zend_class_entry *yaf_dispatcher_get_controller(zend_string *app_dir, zend_strin
 	char *directory;
 	size_t directory_len;
 
-    char *app = "\\app\\";
+    //char *app = "\\app\\";
 
 	if (def_module) {
 		directory_len = spprintf(&directory, 0,"%s", ZSTR_VAL(app_dir));

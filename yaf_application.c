@@ -116,7 +116,7 @@ static int yaf_application_parse_option(zval *options) /* {{{ */ {
 	zval *pzval, *psval, *app;
 
 	conf = HASH_OF(options);
-	if (UNEXPECTED((app = zend_hash_str_find(conf, ZEND_STRL("application"))) == NULL)) {
+	if (UNEXPECTED((app = zend_hash_str_find(conf, ZEND_STRL("app"))) == NULL)) {
 		/* For back compatibilty */
 		if ((app = zend_hash_str_find(conf, ZEND_STRL("yaf"))) == NULL) {
 			yaf_trigger_error(YAF_ERR_TYPE_ERROR, "%s", "Expected an array of application configure");
@@ -130,7 +130,7 @@ static int yaf_application_parse_option(zval *options) /* {{{ */ {
 	}
 
 	if (UNEXPECTED((pzval = zend_hash_str_find(Z_ARRVAL_P(app),
-					ZEND_STRL("directory"))) == NULL || Z_TYPE_P(pzval) != IS_STRING || Z_STRLEN_P(pzval) == 0)) {
+					ZEND_STRL("appPath"))) == NULL || Z_TYPE_P(pzval) != IS_STRING || Z_STRLEN_P(pzval) == 0)) {
 		yaf_trigger_error(YAF_ERR_STARTUP_FAILED, "%s", "Expected a directory entry in application configures");
 		return FAILURE;
 	}
@@ -139,6 +139,18 @@ static int yaf_application_parse_option(zval *options) /* {{{ */ {
 		YAF_G(directory) = zend_string_init(Z_STRVAL_P(pzval), Z_STRLEN_P(pzval) - 1, 0);
 	} else {
 		YAF_G(directory) = zend_string_copy(Z_STR_P(pzval));
+	}
+
+	if (UNEXPECTED((pzval = zend_hash_str_find(Z_ARRVAL_P(app),
+					ZEND_STRL("rootPath"))) == NULL || Z_TYPE_P(pzval) != IS_STRING || Z_STRLEN_P(pzval) == 0)) {
+		yaf_trigger_error(YAF_ERR_STARTUP_FAILED, "%s", "Expected a rootPath entry in application configures");
+		return FAILURE;
+	}
+
+	if (UNEXPECTED(*(Z_STRVAL_P(pzval) + Z_STRLEN_P(pzval) - 1) == DEFAULT_SLASH)) {
+		YAF_G(root_path) = zend_string_init(Z_STRVAL_P(pzval), Z_STRLEN_P(pzval) - 1, 0);
+	} else {
+		YAF_G(root_path) = zend_string_copy(Z_STR_P(pzval));
 	}
 
 	if (UNEXPECTED((pzval = zend_hash_str_find(Z_ARRVAL_P(app),

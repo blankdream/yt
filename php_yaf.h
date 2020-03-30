@@ -77,6 +77,7 @@ ZEND_BEGIN_MODULE_GLOBALS(yaf)
 	zend_string	*ext;
 	zend_string *base_uri;
 	zend_string *directory;
+	zend_string *root_path;
 	zend_string *local_library;
 	zend_string *local_namespaces;
 	zend_string *view_directory;
