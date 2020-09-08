@@ -603,10 +603,10 @@ PHP_METHOD(yaf_loader, autoload) {
 	app_directory = YAF_G(root_path)? ZSTR_VAL(YAF_G(root_path)) : NULL;
 	origin_classname = class_name;
 
-	do {
-		if (!class_name_len) {
-			break;
-		} else {
+	// do {
+	// 	if (!class_name_len) {
+	// 		break;
+	// 	} else {
 			char *pos;
 			if ((pos = strchr(class_name, '\\')) != NULL) {
 				dup_lcname = estrndup(class_name, class_name_len);
@@ -619,73 +619,71 @@ PHP_METHOD(yaf_loader, autoload) {
 				}
 				class_name = dup_lcname;
 			}
-		}
+		//}
 
 		if (strncmp(class_name, YAF_LOADER_RESERVERD, YAF_LOADER_LEN_RESERVERD) == 0) {
 			php_error_docref(NULL, E_WARNING, "You should not use '%s' as class name prefix", YAF_LOADER_RESERVERD);
 		}
 
-		if (yaf_loader_is_category(class_name, class_name_len, YAF_LOADER_MODEL, YAF_LOADER_LEN_MODEL)) {
-			/* this is a model class */
-			spprintf(&directory, 0, "%s%c%s", app_directory, DEFAULT_SLASH, YAF_MODEL_DIRECTORY_NAME);
-			file_name_len = class_name_len - separator_len - YAF_LOADER_LEN_MODEL;
+		// if (yaf_loader_is_category(class_name, class_name_len, YAF_LOADER_MODEL, YAF_LOADER_LEN_MODEL)) {
+		// 	/* this is a model class */
+		// 	spprintf(&directory, 0, "%s%c%s", app_directory, DEFAULT_SLASH, YAF_MODEL_DIRECTORY_NAME);
+		// 	file_name_len = class_name_len - separator_len - YAF_LOADER_LEN_MODEL;
 
-			if (YAF_G(name_suffix)) {
-				file_name = estrndup(class_name, file_name_len);
-			} else {
-				file_name = estrdup(class_name + YAF_LOADER_LEN_MODEL + separator_len);
-			}
+		// 	if (YAF_G(name_suffix)) {
+		// 		file_name = estrndup(class_name, file_name_len);
+		// 	} else {
+		// 		file_name = estrdup(class_name + YAF_LOADER_LEN_MODEL + separator_len);
+		// 	}
 
-			break;
-		}
+		// 	break;
+		// }
 
-		if (yaf_loader_is_category(class_name, class_name_len, YAF_LOADER_PLUGIN, YAF_LOADER_LEN_PLUGIN)) {
-			/* this is a plugin class */
-			spprintf(&directory, 0, "%s%c%s", app_directory, DEFAULT_SLASH, YAF_PLUGIN_DIRECTORY_NAME);
-			file_name_len = class_name_len - separator_len - YAF_LOADER_LEN_PLUGIN;
+		// if (yaf_loader_is_category(class_name, class_name_len, YAF_LOADER_PLUGIN, YAF_LOADER_LEN_PLUGIN)) {
+		// 	/* this is a plugin class */
+		// 	spprintf(&directory, 0, "%s%c%s", app_directory, DEFAULT_SLASH, YAF_PLUGIN_DIRECTORY_NAME);
+		// 	file_name_len = class_name_len - separator_len - YAF_LOADER_LEN_PLUGIN;
 
-			if (YAF_G(name_suffix)) {
-				file_name = estrndup(class_name, file_name_len);
-			} else {
-				file_name = estrdup(class_name + YAF_LOADER_LEN_PLUGIN + separator_len);
-			}
+		// 	if (YAF_G(name_suffix)) {
+		// 		file_name = estrndup(class_name, file_name_len);
+		// 	} else {
+		// 		file_name = estrdup(class_name + YAF_LOADER_LEN_PLUGIN + separator_len);
+		// 	}
 
-			break;
-		}
+		// 	break;
+		// }
 
-		if (yaf_loader_is_category(class_name, class_name_len, YAF_LOADER_CONTROLLER, YAF_LOADER_LEN_CONTROLLER)) {
-			/* this is a controller class */
-			spprintf(&directory, 0, "%s%c%s", app_directory, DEFAULT_SLASH, YAF_CONTROLLER_DIRECTORY_NAME);
-			file_name_len = class_name_len - separator_len - YAF_LOADER_LEN_CONTROLLER;
+		// if (yaf_loader_is_category(class_name, class_name_len, YAF_LOADER_CONTROLLER, YAF_LOADER_LEN_CONTROLLER)) {
+		// 	/* this is a controller class */
+		// 	spprintf(&directory, 0, "%s%c%s", app_directory, DEFAULT_SLASH, YAF_CONTROLLER_DIRECTORY_NAME);
+		// 	file_name_len = class_name_len - separator_len - YAF_LOADER_LEN_CONTROLLER;
 
-			if (YAF_G(name_suffix)) {
-				file_name = estrndup(class_name, file_name_len);
-			} else {
-				file_name = estrdup(class_name + YAF_LOADER_LEN_CONTROLLER + separator_len);
-			}
+		// 	if (YAF_G(name_suffix)) {
+		// 		file_name = estrndup(class_name, file_name_len);
+		// 	} else {
+		// 		file_name = estrdup(class_name + YAF_LOADER_LEN_CONTROLLER + separator_len);
+		// 	}
 
-			break;
-		}
+		// 	break;
+		// }
 
 
 /* {{{ This only effects internally */
-		if (YAF_G(st_compatible) && (strncmp(class_name, YAF_LOADER_DAO, YAF_LOADER_LEN_DAO) == 0
-					|| strncmp(class_name, YAF_LOADER_SERVICE, YAF_LOADER_LEN_SERVICE) == 0)) {
+		//if (YAF_G(st_compatible) && (strncmp(class_name, YAF_LOADER_DAO, YAF_LOADER_LEN_DAO) == 0
+		//			|| strncmp(class_name, YAF_LOADER_SERVICE, YAF_LOADER_LEN_SERVICE) == 0)) {
 			/* this is a model class */
-			spprintf(&directory, 0, "%s/%s", app_directory, YAF_MODEL_DIRECTORY_NAME);
-		}
+			//spprintf(&directory, 0, "%s/%s", root_directory, YAF_MODEL_DIRECTORY_NAME);
+		//}
 /* }}} */
 
+		spprintf(&directory, 0, "%s", app_directory);
 		file_name_len = class_name_len;
 		file_name     = estrndup(class_name, class_name_len);
 
-	} while(0);
+	//} while(0);
 
 	if (!app_directory && directory) {
-		php_error_docref(NULL,
-				E_WARNING,
-				"Couldn't load a MVC class unless an %s is initialized",
-				ZSTR_VAL(yaf_application_ce->name));
+		php_error_docref(NULL,E_WARNING,"Couldn't load a MVC class unless an %s is initialized",ZSTR_VAL(yaf_application_ce->name));
 		ret = 0;
 		goto out;
 	}
@@ -705,8 +703,7 @@ PHP_METHOD(yaf_loader, autoload) {
 		goto out;
 	} else {
 		char *lower_case_name = zend_str_tolower_dup(origin_classname, class_name_len);
-		if (yaf_internal_autoload(file_name, file_name_len, &directory) &&
-				zend_hash_str_exists(EG(class_table), lower_case_name, class_name_len)) {
+		if (yaf_internal_autoload(file_name, file_name_len, &directory) && zend_hash_str_exists(EG(class_table), lower_case_name, class_name_len)) {
 			efree(lower_case_name);
 			goto out;
 		}

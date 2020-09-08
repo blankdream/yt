@@ -615,7 +615,7 @@ static yaf_inline void float_debug(char* name, float l) {
     php_printf("%s：[%f] (float)\n", name, l);
 }
 static yaf_inline void x_debug(char* name, void* l) {
-    php_printf("%s：[%x] (point)\n", name, l);
+    php_printf("%s：[%p] (point)\n", name, l);
 }
 static yaf_inline void info_debug(char* name) {
     php_printf("============%s============\n", name);

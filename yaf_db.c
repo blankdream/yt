@@ -327,7 +327,7 @@ PHP_METHOD(yaf_db, exec) {
         size_t buf_size = 10 + Z_STRLEN_P(query) + 1;
         char* send_buf = (char*) malloc(buf_size);
         memset(send_buf, 0, buf_size);
-      	sprintf(send_buf, "%d\n%s", Z_STRLEN_P(query), Z_STRVAL_P(query));
+      	sprintf(send_buf, "%ld\n%s", Z_STRLEN_P(query), Z_STRVAL_P(query));
       	
         size_t send_len = php_stream_write(stream, send_buf, strlen(send_buf));
         free(send_buf);
@@ -1688,7 +1688,7 @@ char* get_mapkey(char* mapkey) {
     long l_mapkey_index = Z_LVAL_P(mapkey_index);
     l_mapkey_index = (l_mapkey_index + 1) % 9999;
     zend_update_static_property_long(yaf_db_ce_ptr, ZEND_STRL("mapkey_index"), l_mapkey_index TSRMLS_DC);
-    sprintf(mapkey, ":param_%d", l_mapkey_index);
+    sprintf(mapkey, ":param_%ld", l_mapkey_index);
     return mapkey;
 }
 
@@ -2928,7 +2928,7 @@ void yaf_unserialize(zval *return_value, zval *var TSRMLS_DC) {
 		zval_dtor(return_value);
 		ZVAL_NULL(return_value);
 		if (!EG(exception)) {
-			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Error at offset %ld of %d bytes", (long)((char*)p - Z_STRVAL_P(var)), Z_STRLEN_P(var));
+			php_error_docref(NULL TSRMLS_CC, E_NOTICE, "Error at offset %ld of %ld bytes", (long)((char*)p - Z_STRVAL_P(var)), Z_STRLEN_P(var));
 		}
 		RETURN_FALSE;
 	}

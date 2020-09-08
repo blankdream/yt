@@ -354,7 +354,7 @@ zend_class_entry *yaf_dispatcher_get_controller(zend_string *app_dir, zend_strin
 	if (def_module) {
 		directory_len = spprintf(&directory, 0,"%s", ZSTR_VAL(app_dir));
 	} else {
-		directory_len = spprintf(&directory, 0,"%s%c%s%c%s", ZSTR_VAL(app_dir), DEFAULT_SLASH, YAF_MODULE_DIRECTORY_NAME,DEFAULT_SLASH, ZSTR_VAL(module));
+		directory_len = spprintf(&directory, 0,"%s%c%s", ZSTR_VAL(app_dir),DEFAULT_SLASH, ZSTR_VAL(module));
 	}
 
 	if (EXPECTED(directory_len)) {
@@ -370,7 +370,7 @@ zend_class_entry *yaf_dispatcher_get_controller(zend_string *app_dir, zend_strin
         if (def_module) {
             directory_namespace = strpprintf(0, "%s", YAF_APPLICATION_NS);
         } else {
-            directory_namespace = strpprintf(0, "%s\\modules\\%s", YAF_APPLICATION_NS, ZSTR_VAL(module));
+            directory_namespace = strpprintf(0, "%s\\%s", YAF_APPLICATION_NS, ZSTR_VAL(module));
         }
 
         class = strpprintf(0, "%s\\%s", ZSTR_VAL(directory_namespace), ZSTR_VAL(class_relative));
@@ -378,7 +378,6 @@ zend_class_entry *yaf_dispatcher_get_controller(zend_string *app_dir, zend_strin
 
 		class_lowercase = zend_string_tolower(class);
         class_file_path = standard_path(class_file_path);
-
 		if ((ce = zend_hash_find_ptr(EG(class_table), class_lowercase)) == NULL) {
 			if (!yaf_loader_import(class_file_path, 0)) {
 				yaf_trigger_error(YAF_ERR_NOTFOUND_CONTROLLER,
@@ -526,8 +525,7 @@ zend_class_entry *yaf_dispatcher_get_action(zend_string *app_dir, yaf_controller
 		if (def_module) {
 			spprintf(&directory, 0, "%s%c%s", ZSTR_VAL(app_dir), DEFAULT_SLASH, "actions");
 		} else {
-			spprintf(&directory, 0, "%s%c%s%c%s%c%s", ZSTR_VAL(app_dir), DEFAULT_SLASH,
-					"modules", DEFAULT_SLASH, module, DEFAULT_SLASH, "actions");
+			spprintf(&directory, 0, "%s%c%s%c%s", ZSTR_VAL(app_dir), DEFAULT_SLASH, module, DEFAULT_SLASH, "actions");
 		}
 
 		if (YAF_G(name_suffix)) {
@@ -655,7 +653,7 @@ int yaf_dispatcher_handle(yaf_dispatcher_t *dispatcher, yaf_request_t *request, 
 			if (is_def_module) {
 				view_dir = strpprintf(0, "%s%c%s", ZSTR_VAL(app_dir), DEFAULT_SLASH, "views");
 			} else {
-				view_dir = strpprintf(0, "%s%c%s%c%s%c%s", ZSTR_VAL(app_dir),DEFAULT_SLASH, "modules", DEFAULT_SLASH, Z_STRVAL_P(module), DEFAULT_SLASH, "views");
+				view_dir = strpprintf(0, "%s%c%s%c%s", ZSTR_VAL(app_dir),DEFAULT_SLASH, Z_STRVAL_P(module), DEFAULT_SLASH, "views");
 			}
 
 			if (YAF_G(view_directory)) {
