@@ -9,6 +9,7 @@ yaf.use_namespace=0
 $request  = new Yaf_Request_Simple("CLI", "index", "dummy", NULL, array());
 print_r($request);
 var_dump((bool)$request->setParam("name", "Laruence"));
+$request->setParam(["age" => 28, "gender" => "man"]);
 var_dump($request->isCli());
 var_dump($request->isXmlHttpRequest());
 var_dump($request->isPost());
@@ -47,20 +48,19 @@ var_dump($request->getParams());
 --EXPECTF--
 Yaf_Request_Simple Object
 (
-    [module] => index
-    [controller] => dummy
-    [action] => index
     [method] => CLI
+    [module] => Index
+    [controller] => Dummy
+    [action] => index
+    [uri:protected] => 
+    [base_uri:protected] => 
+    [dispatched:protected] => 
+    [routed:protected] => 1
+    [language:protected] => 
     [params:protected] => Array
         (
         )
 
-    [language:protected] => 
-    [_exception:protected] => 
-    [_base_uri:protected] => 
-    [uri:protected] => 
-    [dispatched:protected] => 
-    [routed:protected] => 1
 )
 bool(true)
 bool(true)
@@ -68,7 +68,7 @@ bool(false)
 bool(false)
 string(8) "Laruence"
 NULL
-string(%d) "Failed opening controller script %scontrollers%cDummy.php: No such file or directory"
+string(%d) "Failed opening controller script %sDummy.php: No such file or directory"
 NULL
 NULL
 NULL
@@ -91,7 +91,11 @@ string(7) "2.13232"
 Warning: Yaf_Request_Abstract::setParam() expects parameter 1 to be array, string given in %s002.php on line %d
 NULL
 NULL
-array(1) {
+array(3) {
   ["name"]=>
   string(8) "Laruence"
+  ["age"]=>
+  int(28)
+  ["gender"]=>
+  string(3) "man"
 }

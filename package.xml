@@ -10,11 +10,11 @@
   <email>laruence@php.net</email>
   <active>yes</active>
  </lead>
- <date>2019-12-19</date>
- <time>14:00:00</time>
+ <date>2020-06-11</date>
+ <time>15:30:00</time>
  <version>
-  <release>3.0.9</release>
-  <api>3.0.9</api>
+  <release>3.2.5</release>
+  <api>3.2.5</api>
  </version>
  <stability>
   <release>stable</release>
@@ -22,7 +22,10 @@
  </stability>
  <license uri="http://www.php.net/license">PHP</license>
  <notes>
-  - Fixed build with PHP-7.4
+  - Fixed issue #492 (init method could be protected)
+  - Fixed issue #492 (plugins maybe changed in controller execution)
+  - Fixed issue #492 (empty names shoud not be set to request)
+  - Fixed cow_violation conflicts
  </notes>
  <contents> 
   <dir name="/"> 
@@ -62,10 +65,6 @@
    <file name="yaf_session.h" role="src" />
    <file name="yaf_view.c" role="src" />
    <file name="yaf_view.h" role="src" />
-   <file name="yaf_db.c" role="src" />
-   <file name="yaf_db.h" role="src" />
-   <file name="functions.c" role="src" />
-   <file name="functions.h" role="src" />
    <dir name="configs">
     <file name="yaf_config_ini.c" role="src" />
     <file name="yaf_config_ini.h" role="src" />
@@ -197,6 +196,29 @@
     <file name="084.phpt" role="test" />
     <file name="085.phpt" role="test" />
     <file name="086.phpt" role="test" />
+    <file name="087.phpt" role="test" />
+    <file name="088.phpt" role="test" />
+    <file name="089.phpt" role="test" />
+    <file name="090.phpt" role="test" />
+    <file name="091.phpt" role="test" />
+    <file name="092.phpt" role="test" />
+    <file name="093.phpt" role="test" />
+    <file name="094.phpt" role="test" />
+    <file name="095.phpt" role="test" />
+    <file name="096.phpt" role="test" />
+    <file name="097.phpt" role="test" />
+    <file name="098.phpt" role="test" />
+    <file name="099.phpt" role="test" />
+    <file name="100.phpt" role="test" />
+    <file name="101.phpt" role="test" />
+    <file name="102.phpt" role="test" />
+    <file name="103.phpt" role="test" />
+    <file name="104.phpt" role="test" />
+    <file name="105.phpt" role="test" />
+    <file name="106.phpt" role="test" />
+    <file name="107.phpt" role="test" />
+    <file name="108.phpt" role="test" />
+    <file name="109.phpt" role="test" />
     <file name="build.inc" role="test" />
     <file name="bug61493.phpt" role="test" />
     <file name="bug63381.phpt" role="test" />
@@ -213,6 +235,8 @@
     <file name="issue303.phpt" role="test" />
     <file name="issue311.phpt" role="test" />
     <file name="issue420.phpt" role="test" />
+    <file name="issue468.phpt" role="test" />
+    <file name="issue469.phpt" role="test" />
     <file name="simple.ini" role="test" />
     <file name="system.ini" role="test" />
     <file name="multi-section.ini" role="test" />
@@ -233,6 +257,206 @@
  <extsrcrelease />
  <changelog> 
   <release> 
+   <date>2020-06-11</date> 
+   <version> 
+    <release>3.2.5</release> 
+    <api>3.2.5</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed issue #492 (init method could be protected)
+    - Fixed issue #492 (plugins maybe changed in controller execution)
+    - Fixed issue #492 (empty names shoud not be set to request)
+    - Fixed cow_violation conflicts
+   </notes> 
+  </release> 
+
+  <release> 
+   <date>2020-06-04</date> 
+   <version> 
+    <release>3.2.4</release> 
+    <api>3.2.4</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed issue #489 (global library is not used if namespace is not set)
+    - Fixed issue #490 (segfault with repeated call arguments)
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-05-15</date> 
+   <version> 
+    <release>3.2.3</release> 
+    <api>3.2.3</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed issue #482 (segfault if plugin doesn't defines all hooks)
+    - Fixed issue #481 (application.system.yaf.directory has no effect)
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-05-11</date> 
+   <version> 
+    <release>3.2.2</release> 
+    <api>3.2.2</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Added Yaf_Dispatcher::setResponse
+    - Removed FINAL flags of Yaf_Request_*, Yaf_Response_*
+    - Fixed bug that ErrorController doesn't respect returnResponse
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-04-20</date> 
+   <version> 
+    <release>3.2.1</release> 
+    <api>3.2.1</api> 
+   </version> 
+   <stability> 
+    <release>beta</release> 
+    <api>beta</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed Namespace resgister unexpected overridden
+    - Fixed yaf_slip_equal fails on 4-bytes string
+    - Added Yaf_Dispatcher::getResponse()
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-04-18</date> 
+   <version> 
+    <release>3.2.0</release> 
+    <api>3.2.0</api> 
+   </version> 
+   <stability> 
+    <release>beta</release> 
+    <api>beta</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Refactor core data structs for performance, according to demo created by tool/cg/yaf_cg, 20% performance improved
+    - Implemented PSR-4 autoloading, user now can specific a path for a namespace by Yaf_Loader::registerNamespace(name, path)
+    - Added Yaf_Loader::registerNamespace(), Yaf_Loader::getNamespaces(), Yaf_Loader::getNamespacePath()
+    - Added Yaf_Request::clearParams()
+    - Added Yaf_Controller::getName(), Yaf_Action::getControllerName()
+    - Added Yaf_Dispatcher::getDefaultModule(), Yaf_Dispatcher::getDefaultController() and Yaf_Dispatcher::getDefaultAction()
+    - Added Yaf_Application::getInstance(), which is alias of Yaf_Application:app()
+    - Added optional $format_name argument to Yaf_Request::setModule/Controller/actionName
+      if it set to false, Yaf will set original input as name,
+      default it true, which means Yaf will format the name(camel/lowercase) before set it to Request
+    - Yaf_Controller::__construct now accpet no parameters, it now requires Yaf_Application is initialized.
+    - Rmoved all lead underline for fake protected property name(examing by var_dump)
+    - Fixed bug that protected method of Bootstrap get executed
+    - Yaf_View_Simple is final class now, custom view engin should implements Yaf_View_Interface
+    - Yaf_Route_* now routes valid Module/Controller/action name directly
+    - Yaf_Controller action's arguments will be set even if there are gaps now (see test/issue420.phpt)
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-04-01</date> 
+   <version> 
+    <release>3.1.4</release> 
+    <api>3.1.4</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed issue #469 (treat autocontroller as Controller mistakenly)
+    - Fixed issue #468 (abort if same key assigned to view)
+    - minor optimization to avoding memory allocations
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-03-20</date> 
+   <version> 
+    <release>3.1.3</release> 
+    <api>3.1.3</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed issue #466 (segfault if getRequest without name)
+    - Fixed bug (unexpected path too long error)
+    - Fixed valgrind warning about access to uninitilized value while memcmp
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-03-17</date> 
+   <version> 
+    <release>3.1.2</release> 
+    <api>3.1.2</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed bug (Yaf detecting base_uri failed)
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-03-16</date> 
+   <version> 
+    <release>3.1.1</release> 
+    <api>3.1.1</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Fixed memrchr missed in windows
+   </notes> 
+  </release> 
+  <release> 
+   <date>2020-03-15</date> 
+   <version> 
+    <release>3.1.0</release> 
+    <api>3.1.0</api> 
+   </version> 
+   <stability> 
+    <release>stable</release> 
+    <api>stable</api> 
+   </stability> 
+   <license uri="http://www.php.net/license">PHP License</license> 
+   <notes>
+    - Refactor Yaf_Loader for performance
+    - Refactor lots of codes to avoiding memory allocation
+    - Yaf_Loader::getNameSpaces() now return array instead of comma separated string
+    - Yaf_Route_Rewrite now process multiple repeated bach slashes as one
+    - Removed --enable-yaf-debug, now yaf allows user to moditify variables in $_POST etc 
+    - Fixed bug while stripping base_uri 
+    - Fixed memrchr missed in windows
+   </notes> 
+  </release> 
+  <release> 
    <date>2019-12-19</date> 
    <version> 
     <release>3.0.9</release> 
@@ -247,7 +471,6 @@
     - Fixed build with PHP-7.4
    </notes> 
   </release> 
-
   <release> 
    <date>2018-12-10</date> 
    <version> 

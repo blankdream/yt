@@ -1,18 +1,7 @@
 PHP_ARG_ENABLE(yaf, whether to enable yaf support,
 [  --enable-yaf           Enable yaf support])
 
-AC_ARG_ENABLE(yaf-debug,
-[  --enable-yaf-debug     Enable yaf debug mode default=no],
-[PHP_YAF_DEBUG=$enableval],
-[PHP_YAF_DEBUG="no"])  
-
 if test "$PHP_YAF" != "no"; then
-
-  if test "$PHP_YAF_DEBUG" = "yes"; then
-    AC_DEFINE(PHP_YAF_DEBUG,1,[define to 1 if you want to change the POST/GET by php script])
-  else
-    AC_DEFINE(PHP_YAF_DEBUG,0,[define to 1 if you want to change the POST/GET by php script])
-  fi
 
   AC_MSG_CHECKING([PHP version])
 
@@ -72,9 +61,7 @@ if test "$PHP_YAF" != "no"; then
     yaf_loader.c                    \
     yaf_registry.c                  \
     yaf_plugin.c                    \
-    yaf_session.c                   \
-    functions.c                    \
-    yaf_db.c,
+    yaf_session.c,
   $ext_shared)
   PHP_ADD_BUILD_DIR([$ext_builddir/configs])
   PHP_ADD_BUILD_DIR([$ext_builddir/requests])

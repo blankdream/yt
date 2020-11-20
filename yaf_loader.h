@@ -17,60 +17,71 @@
 #ifndef YAF_LOADER_H
 #define YAF_LOADER_H
 
-#define YAF_DEFAULT_VIEW_EXT     	  		"phtml"
-#define YAF_DEFAULT_LIBRARY_EXT		   		YAF_DEFAULT_CONTROLLER_EXT
+#define YAF_DEFAULT_VIEW_EXT               "phtml"
+#define YAF_DEFAULT_EXT                    "php"
+#define YAF_DEFAULT_LIBRARY_EXT             YAF_DEFAULT_CONTROLLER_EXT
 
-#define YAF_LIBRARY_DIRECTORY_NAME    		"library"
-#define YAF_CONTROLLER_DIRECTORY_NAME 		"controllers"
-#define YAF_APPLICATION_NS           		  "app"
-#define YAF_PLUGIN_DIRECTORY_NAME 	  		"plugins"
-#define YAF_MODULE_DIRECTORY_NAME     		"modules"
-#define YAF_VIEW_DIRECTORY_NAME       		"views"
-#define YAF_MODEL_DIRECTORY_NAME      		"models"
+#define YAF_LIBRARY_DIRECTORY_NAME         "library"
+#define YAF_CONTROLLER_DIRECTORY_NAME      "controllers"
+#define YAF_PLUGIN_DIRECTORY_NAME          "plugins"
+#define YAF_MODULE_DIRECTORY_NAME          "modules"
+#define YAF_VIEW_DIRECTORY_NAME            "views"
+#define YAF_MODEL_DIRECTORY_NAME           "models"
 
-#define YAF_SPL_AUTOLOAD_REGISTER_NAME 		"spl_autoload_register"
-#define YAF_AUTOLOAD_FUNC_NAME 				"autoload"
-#define YAF_LOADER_PROPERTY_NAME_INSTANCE	"_instance"
-#define YAF_LOADER_PROPERTY_NAME_NAMESPACE	"_local_ns"
+#define YAF_SPL_AUTOLOAD_REGISTER_NAME     "spl_autoload_register"
+#define YAF_AUTOLOAD_FUNC_NAME             "autoload"
 
-#define YAF_LOADER_CONTROLLER				"Controller"
-#define YAF_LOADER_LEN_CONTROLLER			10
-#define YAF_LOADER_MODEL					"Model"
-#define YAF_LOADER_LEN_MODEL				5
-#define YAF_LOADER_PLUGIN					"Plugin"
-#define YAF_LOADER_LEN_PLUGIN				6
-#define YAF_LOADER_RESERVERD				"Yaf_"
-#define YAF_LOADER_LEN_RESERVERD			3
+#define YAF_LOADER_USE_SPL                 YAF_USE_SPL_AUTOLOAD
+#define YAF_LOADER_LOWERCASE               YAF_LOWERCASE_PATH
+#define YAF_LOADER_NAMESUFFIX              YAF_NAME_SUFFIX
+#define YAF_LOADER_NAMESEPARATOR           YAF_HAS_NAME_SEPERATOR
 
-/* {{{ This only effects internally */
-#define YAF_LOADER_DAO						"Dao_"
-#define YAF_LOADER_LEN_DAO					4
-#define YAF_LOADER_SERVICE					"Service_"
-#define YAF_LOADER_LEN_SERVICE				8
-/* }}} */
+#define YAF_LOADER_FLAGS(loader)           YAF_VAR_FLAGS(loader->std.properties_table[0])
+#define YAF_LOADER_NAMESPACES(loader)      (Z_ARR(loader->std.properties_table[0]))
 
-#define	YAF_LOADER_PROPERTY_NAME_LIBRARY	"_library"
-#define YAF_LOADER_PROPERTY_NAME_GLOBAL_LIB "_global_library"
+typedef struct {
+	zend_object std;
+	zend_string *library;
+	zend_string *glibrary;
+	zend_array  *properties;
+} yaf_loader_object;
 
-#define YAF_STORE_EG_ENVIRON() \
-	{ \
-		zval ** __old_return_value_pp   = EG(return_value_ptr_ptr); \
-		zend_op ** __old_opline_ptr  	= EG(opline_ptr); \
-		zend_op_array * __old_op_array  = EG(active_op_array);
-
-#define YAF_RESTORE_EG_ENVIRON() \
-		EG(return_value_ptr_ptr) = __old_return_value_pp;\
-		EG(opline_ptr)			 = __old_opline_ptr; \
-		EG(active_op_array)		 = __old_op_array; \
-	}
+#define Z_YAFLOADEROBJ(zv)    ((yaf_loader_object*)(Z_OBJ(zv)))
+#define Z_YAFLOADEROBJ_P(zv)  Z_YAFLOADEROBJ(*zv)
 
 extern zend_class_entry *yaf_loader_ce;
 
-int yaf_internal_autoload(char *file_name, size_t name_len, char **directory);
-int yaf_loader_import(zend_string *path, int use_path);
+yaf_loader_t *yaf_loader_instance(zend_string *library_path);
+void yaf_loader_reset(yaf_loader_object *loader);
+int yaf_loader_load_internal(yaf_loader_object *loader, char *file_name, size_t name_len, char *directory, uint32_t directory_len);
 int yaf_register_autoloader(yaf_loader_t *loader);
-int yaf_loader_register_namespace_single(char *prefix, size_t len);
-yaf_loader_t *yaf_loader_instance(yaf_loader_t *this_ptr, zend_string *library_path, zend_string *global_path);
+int yaf_loader_import(const char* path, uint32_t path_len);
+int yaf_loader_register_namespace(yaf_loader_object *loader, zend_string *prefix, zend_string *path);
+void yaf_loader_set_global_library_path(yaf_loader_object *loader, zend_string *library_path);
+
+#define yaf_loader_set_library_path(loader, path)   yaf_loader_set_library_path_ex(loader, zend_string_copy(path))
+static zend_always_inline void yaf_loader_set_library_path_ex(yaf_loader_object *loader, zend_string *library_path) {
+	if (UNEXPECTED(loader->library)) {
+		zend_string_release(loader->library);
+	}
+	loader->library = library_path;
+}
+
+static zend_always_inline zend_bool yaf_loader_use_spl_autoload(yaf_loader_object *loader) {
+	return YAF_LOADER_FLAGS(loader) & YAF_LOADER_USE_SPL;
+}
+
+static zend_always_inline zend_bool yaf_loader_is_lowcase_path(yaf_loader_object *loader) {
+	return YAF_LOADER_FLAGS(loader) & YAF_LOADER_LOWERCASE;
+}
+
+static zend_always_inline zend_bool yaf_loader_is_name_suffix(yaf_loader_object *loader) {
+	return YAF_LOADER_FLAGS(loader) & YAF_LOADER_NAMESUFFIX;
+}
+
+static zend_always_inline zend_bool yaf_loader_has_name_separator(yaf_loader_object *loader) {
+	return YAF_LOADER_FLAGS(loader) & YAF_LOADER_NAMESEPARATOR;
+}
 
 extern PHPAPI int php_stream_open_for_zend_ex(const char *filename, zend_file_handle *handle, int mode);
 

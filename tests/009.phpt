@@ -1,5 +1,5 @@
 --TEST--
-Check for Yaf_View_Simple
+Check for Yaf_View_Simple basic usages
 --SKIPIF--
 <?php if (!extension_loaded("yaf")) print "skip"; ?>
 --INI--
@@ -19,24 +19,22 @@ print_r($view);
 --EXPECTF--
 Yaf_View_Simple Object
 (
-    [_tpl_vars:protected] => Array
+    [tpl_dir:protected] => %s
+    [tpl_vars:protected] => Array
         (
             [name] => laruence
         )
 
-    [_tpl_dir:protected] => %s
-    [_options:protected] => 
 )
 int(116)
 string(8) "laruence"
 NULL
 Yaf_View_Simple Object
 (
-    [_tpl_vars:protected] => Array
+    [tpl_dir:protected] => %s
+    [tpl_vars:protected] => Array
         (
             [name] => laruence
         )
 
-    [_tpl_dir:protected] => %s
-    [_options:protected] => 
 )

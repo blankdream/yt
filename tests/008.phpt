@@ -1,5 +1,5 @@
 --TEST--
-Check for Yaf_Router
+Check for Yaf_Router basic usages
 --SKIPIF--
 <?php if (!extension_loaded("yaf")) print "skip"; ?>
 --INI--
@@ -22,7 +22,7 @@ var_dump($router->getRoute("noexists"));
 --EXPECTF--
 Yaf_Router Object
 (
-    [_routes:protected] => Array
+    [routes:protected] => Array
         (
             [_default] => Yaf_Route_Static Object
                 (
@@ -30,19 +30,19 @@ Yaf_Router Object
 
             [simple] => Yaf_Route_Simple Object
                 (
-                    [controller:protected] => c
                     [module:protected] => m
+                    [controller:protected] => c
                     [action:protected] => a
                 )
 
             [super] => Yaf_Route_Supervar Object
                 (
-                    [_var_name:protected] => r
+                    [varname:protected] => r
                 )
 
         )
 
-    [_current:protected] => 
+    [current:protected] => 
 )
 NULL
 Array
@@ -53,21 +53,21 @@ Array
 
     [simple] => Yaf_Route_Simple Object
         (
-            [controller:protected] => c
             [module:protected] => m
+            [controller:protected] => c
             [action:protected] => a
         )
 
     [super] => Yaf_Route_Supervar Object
         (
-            [_var_name:protected] => r
+            [varname:protected] => r
         )
 
 )
 Yaf_Route_Simple Object
 (
-    [controller:protected] => c
     [module:protected] => m
+    [controller:protected] => c
     [action:protected] => a
 )
 NULL

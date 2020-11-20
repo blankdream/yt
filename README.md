@@ -1,5 +1,5 @@
 # Yaf - Yet Another Framework  
-[![Build Status](https://secure.travis-ci.org/laruence/yaf.png)](https://travis-ci.org/laruence/yaf)
+[![Build Status](https://api.travis-ci.org/laruence/yaf.svg?branch=master)](https://travis-ci.org/laruence/yaf) [![Build status](https://ci.appveyor.com/api/projects/status/awii6wf2ocmy202p/branch/master?svg=true)](https://ci.appveyor.com/project/laruence/yaf/branch/master)
 
 PHP framework written in c and built as a PHP extension.
 
@@ -51,9 +51,9 @@ A classic application directory layout:
   + views    
      |+ index   
         - index.phtml // View template for default controller
-  - library
-  - models  // Models
-  - plugins // Plugins
+  + library // libraries
+  + models  // Models
+  + plugins // Plugins
 ```
 ### DocumentRoot
 You should set `DocumentRoot` to `application/public`, thus only the public folder can be accessed by user
@@ -158,6 +158,9 @@ The view script for default controller and default action is in the application/
 
 ## Alternative
 You can generate the example above by using Yaf Code Generator:  https://github.com/laruence/php-yaf/tree/master/tools/cg
+```
+./yaf_cg -d output_directory [-a application_name] [--namespace]
+```
 
 ## More
 More info could be found at Yaf Manual: http://www.php.net/manual/en/book.yaf.php

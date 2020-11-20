@@ -1,5 +1,5 @@
 --TEST--
-Check for Yaf_Loader
+Check for Yaf_Loader local names
 --SKIPIF--
 <?php if (!extension_loaded("yaf")) print "skip"; ?>
 --INI--
@@ -15,6 +15,7 @@ $loader->registerLocalNamespace("Sina");
 $loader->registerLocalNamespace(array("Wb", "Inf", NULL, array(), "123"));
 var_dump($loader->getLocalNamespace());
 var_dump($loader->isLocalName("Baidu_Name"));
+var_dump($loader->isLocalName("Inf\\Name"));
 
 try {
 	var_dump($loader->autoload("Baidu_Name"));
@@ -29,7 +30,19 @@ try {
 
 ?>
 --EXPECTF--
-string(21) "Baidu%cSina%cWb%cInf%c123"
+array(5) {
+  [0]=>
+  string(5) "Baidu"
+  [1]=>
+  string(4) "Sina"
+  [2]=>
+  string(2) "Wb"
+  [3]=>
+  string(3) "Inf"
+  [4]=>
+  string(3) "123"
+}
+bool(true)
 bool(true)
 
 Warning: Yaf_Loader::autoload(): Failed opening script %sBaidu%cName.php: No such file or directory in %s
